@@ -21,4 +21,17 @@ class CalculadoraTeste {
         assertEquals(13.2,resultado);
         assertNotEquals(0,resultado);
     }
+
+    // multiplicação, divisão, subtração e façam a formula de bhaskara
+
+    @Test
+    void bhaskaraTeste(){
+        Calculadora calculadora = new Calculadora();
+
+        double resultado = calculadora.bhaskara(1.0,8.0,-9.0);
+
+        assertNotEquals(Double.MAX_VALUE,resultado);
+        assertEquals(-3.0,resultado);
+
+    }
 }
