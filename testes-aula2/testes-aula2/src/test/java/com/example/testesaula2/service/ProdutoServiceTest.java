@@ -14,6 +14,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class) // adicionar as anotações
@@ -58,5 +60,24 @@ class ProdutoServiceTest {
         // Then - Então validamos
         assertEquals(produtoMockList.get(0).getNomeProduto(), produtosRespostaList.get(0).getNomeProduto());
         verify(repository).findAll();
+    }
+
+
+    @Test
+    void salvaProdutoBDD() {
+        //GIVEN - BDD : Setup de dados
+        Produto produtoMock =
+                new Produto(1L, "Papel", 1.1, LocalDate.now());
+
+        given(repository.save(any())).willReturn(produtoMock);
+
+        // WHEN - BDD : Execução do teste
+        Produto resultado = produtoService.salvaProduto(new ProdutoDto("Papel",1.0));
+
+        // THEN - BDD : validação da resposta do teste
+        assertNotNull(resultado);
+        assertEquals(produtoMock.getNomeProduto(),resultado.getNomeProduto());
+//        verify(repository).save(any());
+        then(repository).should().save(any());
     }
 }
