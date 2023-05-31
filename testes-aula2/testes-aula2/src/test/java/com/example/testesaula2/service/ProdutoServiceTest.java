@@ -10,10 +10,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class) // adicionar as anotações
 // e funcionalidades do mockito aos testes dessa classe
@@ -44,5 +45,18 @@ class ProdutoServiceTest {
 
     @Test
     void retornaTodosProdutos() {
+        // Given - Dado que temos uma informação
+        List<Produto> produtoMockList = List.of(
+                new Produto(1L, "Papel", 1.1, LocalDate.now()));
+
+        when(repository.findAll()).thenReturn(produtoMockList);
+
+        // When - Quando chamamos o método
+
+        List<Produto> produtosRespostaList = produtoService.retornaTodosProdutos();
+
+        // Then - Então validamos
+        assertEquals(produtoMockList.get(0).getNomeProduto(), produtosRespostaList.get(0).getNomeProduto());
+        verify(repository).findAll();
     }
 }
